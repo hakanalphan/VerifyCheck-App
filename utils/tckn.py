@@ -1,4 +1,3 @@
-# utils/tckn.py
 import re
 import logging
 
@@ -33,7 +32,7 @@ def is_valid_tckn(num: str) -> bool:
     - 11. hane: (1+2+3+4+5+6+7+8+9+10) mod 10
     """
     try:
-        # Temel kontroller
+       
         if not num or not isinstance(num, str):
             logger.debug(f"TCKN geçersiz: boş veya string değil")
             return False
