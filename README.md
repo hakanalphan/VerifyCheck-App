@@ -1,4 +1,5 @@
-# KYC Doğrulama PoC — SOLID Mimari (FastAPI + EasyOCR)
+# VerifyCheck
+
 
 **Amaç:** Kimlik (ön yüz) ve imzalı başvuru formundan OCR ile `Ad Soyad` ve `TCKN` çıkarıp tutarlılığı denetler.
 
@@ -46,4 +47,4 @@ docker compose up --build
 
 # Güvenlik
 - Yüklenen dosyalar geçici dizinde tutulur ve işlem sonunda silinir.
-- Üretimde HTTPS ve WAF önerilir; loglarda PII maskeleyin.
+
