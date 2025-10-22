@@ -1,4 +1,3 @@
-# services/match_service.py
 from rapidfuzz import fuzz
 import logging
 
@@ -19,15 +18,15 @@ class Matcher:
         logger.info(f"  Kimlik - İsim: {id_name}, TCKN: {id_tckn}")
         logger.info(f"  Form - İsim: {form_name}, TCKN: {form_tckn}")
         
-        # İsim benzerliği (token_set_ratio: kelime sırasına duyarsız)
+        # İsim benzerliği için
         name_sim = fuzz.token_set_ratio(id_name or "", form_name or "")
         logger.info(f"İsim benzerlik skoru: {name_sim}")
         
-        # TCKN tam eşleşmesi
+        # TCKN 
         tckn_ok = (id_tckn is not None and form_tckn is not None and id_tckn == form_tckn)
         logger.info(f"TCKN eşleşmesi: {tckn_ok}")
         
-        # Genel geçerlilik
+        #  geçerlilik için
         is_valid = (name_sim >= self.min_name_similarity) and tckn_ok
         logger.info(f"Sonuç: {'✓ GEÇERLİ' if is_valid else '✗ GEÇERSİZ'}")
         
