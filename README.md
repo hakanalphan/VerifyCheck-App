@@ -10,7 +10,7 @@ Kimlik (ön yüz) ve **imzalı başvuru formu** görsellerinden **Ad Soyad** ve 
 
 ```bash
 # 1. Depoyu klonla
-git clone https://github.com/hakanalphan/-VerifyCheck-FastAPI-EasyOCR-.git verifycheck
+git clone https://github.com/hakanalphan/VerifyCheck-App.git verifycheck
 cd verifycheck
 
 # 2. Docker ile çalıştır
@@ -86,7 +86,7 @@ uvicorn main:app --reload
 
 ---
 
-## 🧮 TCKN Doğrulama
+##  TCKN Doğrulama
 
 * 11 haneli olmalı, ilk hane `0` olamaz.
 * 10. hane: tek/çift toplamına göre mod-10
@@ -96,14 +96,14 @@ Hatalıysa `tckn_match = false` döner ve doğrulama başarısız olur.
 
 ---
 
-## 🖥️ Hata / Başarı Görünümü
+##  Hata / Başarı Görünümü
 
 * **Hata:** Kırmızı kutu (örnek: TCKN uyuşmuyor)
 * **Başarı:** Yeşil kutu + JSON sonuç
 
 ---
 
-## 🔒 Güvenlik
+##  Güvenlik
 
 * Yüklenen dosyalar **geçici dizinde** tutulur, işlem sonunda **otomatik silinir**.
 * TCKN, isim gibi kişisel veriler loglarda **maskelenmezse** üretimde dikkat edilmelidir.
@@ -111,7 +111,7 @@ Hatalıysa `tckn_match = false` döner ve doğrulama başarısız olur.
 
 ---
 
-## ⚡ Notlar
+##  Notlar
 
 * EasyOCR **CPU modda** çalışır. GPU desteği için Torch + CUDA gerekir.
 * Türkçe metinlerde **diakritik ve büyük harf normalizasyonu** aktiftir.
@@ -119,7 +119,7 @@ Hatalıysa `tckn_match = false` döner ve doğrulama başarısız olur.
 
 ---
 
-## 🧠 Geliştirme Yol Haritası
+##  Geliştirme Yol Haritası
 
 * [ ] Llama Vision OCR entegrasyonu (kimlik ve form alanları için)
 * [ ] DeepSeek-OCR entegrasyonu (karmaşık dokümanlar için)
@@ -128,7 +128,7 @@ Hatalıysa `tckn_match = false` döner ve doğrulama başarısız olur.
 
 ---
 
-📘 **Özet:**
+ **Özet:**
 VerifyCheck, OCR tabanlı kimlik doğrulama için geliştirilen bir PoC’tir.
 EasyOCR ile kimlik ve form verilerini okur, TCKN ve isim uyumunu denetler.
 **Docker veya FastAPI** üzerinden kolayca çalıştırılabilir.
