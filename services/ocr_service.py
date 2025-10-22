@@ -1,4 +1,3 @@
-# services/ocr_service.py
 from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, Tuple, Optional
@@ -34,18 +33,18 @@ class EasyOCREngine:
         try:
             logger.info(f"Görsel okunuyor: {image_path}")
             
-            # Dosya varlığını kontrol et
+            # Dosya varlığını kontrol etmeye calışıyoruz burda
             if not os.path.exists(image_path):
                 raise FileNotFoundError(f"Dosya bulunamadı: {image_path}")
             
-            # Dosyayı bytes olarak oku (Türkçe karakter sorununu çözer)
+           
             with open(image_path, 'rb') as f:
                 img_bytes = f.read()
             
             if not img_bytes:
                 raise ValueError(f"Dosya boş: {image_path}")
             
-            # Numpy array'e dönüştür
+           
             img_array = np.frombuffer(img_bytes, dtype=np.uint8)
             img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
             
@@ -65,7 +64,6 @@ class EasyOCREngine:
             # OCR işlemi
             logger.info("EasyOCR çalıştırılıyor...")
             try:
-                # reader.readtext returns [ [bbox, text, conf], ... ]
                 lines = self.reader.readtext(gray, detail=1, paragraph=False)
             except Exception as e:
                 logger.error(f"EasyOCR readtext hatası: {e}", exc_info=True)
@@ -74,7 +72,7 @@ class EasyOCREngine:
             
             texts, confs = [], []
             for item in lines:
-                if len(item) >= 3:  # [bbox, text, conf] formatı kontrolü
+                if len(item) >= 3:  
                     bbox, t, c = item[0], item[1], item[2]
                     texts.append(str(t))
                     confs.append(float(c))
@@ -93,7 +91,6 @@ class EasyOCREngine:
             
         except Exception as e:
             logger.error(f"OCR hatası ({image_path}): {e}", exc_info=True)
-            # Hata durumunda boş sonuç dön (crash yerine)
             return OcrResult(text="", confidence=0.0)
 
 class DocumentExtractor:
@@ -117,26 +114,25 @@ class DocumentExtractor:
                 logger.warning("OCR boş metin döndü")
                 return None, None, 0.0
             
-            # Metni normalize et
+            # Metni normalize etmek içn
             t = normalize_text(res.text)
             logger.debug(f"Normalize edilmiş metin (ilk 200 karakter):\n{t[:200]}")
             
-            # İsim bloğunu çıkar
+          
             name_blk = extract_name_block(t)
             logger.info(f"İsim bloğu: {name_blk}")
             
-            # İsmi temizle
+   
             name = clean_person_name(name_blk)
             logger.info(f"Temizlenmiş isim: {name}")
             
-            # TCKN çıkar
+  
             tckn = extract_tckn(t)
             logger.info(f"TCKN: {tckn}")
-            
-            # Her zaman 3 değer dön
+
             return name, tckn, res.confidence
             
         except Exception as e:
             logger.error(f"Belge çıkarma hatası ({image_path}): {e}", exc_info=True)
-            # Hata durumunda bile 3 değer dön
+
             return None, None, 0.0
