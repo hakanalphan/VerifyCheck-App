@@ -1,4 +1,3 @@
-# api/routes.py
 from fastapi import APIRouter, UploadFile, File, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
 import os, tempfile, shutil
@@ -11,7 +10,7 @@ from services.ocr_service import EasyOCREngine, DocumentExtractor
 from services.match_service import Matcher
 from utils.tckn import is_valid_tckn
 
-# Logging konfigürasyonu
+# Logging 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
@@ -45,7 +44,7 @@ async def validate(
            (form_image.size and form_image.size > settings.max_upload_mb*1024*1024):
             raise HTTPException(status_code=413, detail=f"Dosya boyutu {settings.max_upload_mb}MB üstünde.")
 
-        # Geçici dosyalara yazma
+       
         logger.info("Dosyalar geçici klasöre yazılıyor...")
         try:
             with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(id_image.filename)[1]) as tmp_id:
@@ -62,11 +61,11 @@ async def validate(
             logger.error(f"Dosya yazma hatası: {e}")
             raise HTTPException(status_code=500, detail=f"Dosya yükleme hatası: {e}")
 
-        # Pipeline oluşturma
+      
         logger.info("OCR pipeline başlatılıyor...")
         extractor, matcher = get_pipeline()
         
-        # Kimlik OCR
+        # kımlik için  ocr
         logger.info(f"Kimlik OCR başlıyor: {tmp_id_path}")
         id_name, id_tckn, id_conf = extractor.extract(tmp_id_path)
         logger.info(f"Kimlik sonucu - Ad: {id_name}, TCKN: {id_tckn}, Güven: {id_conf}")
@@ -76,13 +75,13 @@ async def validate(
         form_name, form_tckn, form_conf = extractor.extract(tmp_form_path)
         logger.info(f"Form sonucu - Ad: {form_name}, TCKN: {form_tckn}, Güven: {form_conf}")
 
-        # TCKN doğrulama (sadece log için, hata vermez)
+        # TCKN doğrulaması
         if id_tckn and not is_valid_tckn(id_tckn):
             logger.warning(f"Kimlik TCKN algoritmik doğrulamadan geçmedi: {id_tckn}")
         if form_tckn and not is_valid_tckn(form_tckn):
             logger.warning(f"Form TCKN algoritmik doğrulamadan geçmedi: {form_tckn}")
 
-        # Eşleştirme
+        # Eşleştirme kısımı
         logger.info("Eşleştirme yapılıyor...")
         name_similarity, tckn_match, is_valid = matcher.compare(id_name, form_name, id_tckn, form_tckn)
         logger.info(f"Eşleştirme sonucu - İsim benzerliği: {name_similarity}, TCKN eşleşmesi: {tckn_match}, Geçerli: {is_valid}")
@@ -111,7 +110,7 @@ async def validate(
         logger.error(error_detail)
         raise HTTPException(status_code=500, detail=f"İşlem hatası: {str(e)}")
     finally:
-        # Geçici dosyaları temizle
+        
         for p in (tmp_id_path, tmp_form_path):
             if p:
                 try:
