@@ -1,4 +1,3 @@
-# core/models.py
 from pydantic import BaseModel, Field
 
 class ExtractedDocument(BaseModel):
