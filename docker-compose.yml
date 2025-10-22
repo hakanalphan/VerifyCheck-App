@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  kyc-poc:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - KYC_ENVIRONMENT=prod
+      - KYC_MIN_NAME_SIMILARITY=80
+      - KYC_MIN_OCR_CONFIDENCE=0.35
+      - KYC_MAX_UPLOAD_MB=10
+    restart: unless-stopped
