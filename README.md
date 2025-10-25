@@ -52,6 +52,7 @@ Kullanıcı iki belge (kimlik ve form) yükler → sistem OCR ile verileri okur 
 ## ⚙️ Geliştirici Modunda Çalıştırma
 
 ```bash
+.\venv\Scripts\activate 
 pip install -r requirements.txt
 uvicorn main:app --reload
 # http://127.0.0.1:8000
